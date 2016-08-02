@@ -1,0 +1,6 @@
+include Makefile
+include manage.py
+include README.rst
+include requirements.txt
+include test-requirements.txt
+

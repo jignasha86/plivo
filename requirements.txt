@@ -1,0 +1,8 @@
+Django==1.8.14
+Pygments==1.6
+django-redis-cache==1.6.5
+djangorestframework==3.4.1
+pbr==0.11.1
+psycopg2==2.4.5
+redis==2.10.5
+requests==2.7.0
