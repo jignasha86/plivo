@@ -1,0 +1,6 @@
+*.log
+*.pyc
+*.swp
+plivo.egg-info
+pbr-1.10.0-py2.7.egg
+build

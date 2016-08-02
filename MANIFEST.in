@@ -1,6 +1,12 @@
+include AUTHORS
+include ChangeLog
+exclude .gitignore
+exclude .gitreview
+
+global-exclude *.pyc
+
 include Makefile
 include manage.py
 include README.rst
 include requirements.txt
 include test-requirements.txt
-
