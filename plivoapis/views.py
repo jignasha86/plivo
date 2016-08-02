@@ -9,17 +9,33 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from plivoapis.authentication import PlivoAuthentication
 from django.core.cache import cache
 
+def auth_required(func):
+   def func_wrapper(request):
+       try:
+           global output
+           global code
+           output = {'message':'','error':''}
+           code = 400
+           if 'is_anonymous' in dir(request.user) and request.user.is_anonymous():
+              raise exceptions.AuthenticationFailed('Unauthenticated')
+           return func(request)
+       except Exception as ex:
+              output['error'] = "unknown failure"
+              if ex.status_code == 401:
+                 output['error'] = ex.detail
+                 code = 403
+              return Response(output, status=code)
+               
+   return func_wrapper
+
 @api_view(['POST'])
 @authentication_classes((PlivoAuthentication,))
+@auth_required
 def inbound_sms(request):
     """
     Inbound sms
     """
     try:
-        output = {'message':'','error':''}
-        code = 400
-        if 'is_anonymous' in dir(request.user) and request.user.is_anonymous():
-           raise exceptions.AuthenticationFailed('Unauthenticated')
         serializer = PlivoSerializer(data=request.data)
         if serializer.is_valid():
            serializer.save()
@@ -49,25 +65,18 @@ def inbound_sms(request):
              output['error'] = msg
              return Response(output, status=code)                   
     except Exception as ex:
-           output['error'] = "unknown failure"
-           if ex.status_code == 401:
-              output['error'] = ex.detail
-              code = 403
-           return Response(output, status=code)  
+           import pdb;pdb.set_trace()
+           raise ex
 
 
 @api_view(['POST'])
 @authentication_classes((PlivoAuthentication,))
+@auth_required
 def outbound_sms(request):
     """
     Outbound sms
     """
     try:
-        output = {'message':'','error':''}
-        code = 400
-        if  'is_anonymous' in dir(request.user) and request.user.is_anonymous():
-           raise exceptions.AuthenticationFailed('Unauthenticated')
-
         serializer = PlivoSerializer(data=request.data)
         if serializer.is_valid():
            serializer.save()
@@ -109,9 +118,5 @@ def outbound_sms(request):
              output['error'] = msg
              return Response(output, status=code)
     except Exception as ex:
-           output['error'] = "unknown failure"
-           if ex.status_code == 401:
-              output['error'] = ex.detail
-              code = 403
-           return Response(output, status=code)
+           raise ex
 
