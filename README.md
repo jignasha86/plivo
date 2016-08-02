@@ -2,7 +2,8 @@
 
 #To run locally, do the usual:
 
-Create a Python 2.7 virtualenv
+Create Python 2.7 virtualenv
+Activate new virtualenv
 
 #Install dependencies:
 
