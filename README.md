@@ -33,9 +33,10 @@ Use curl / web service tools to call rest apis for manual testing
 
 #Running the tests:
 
-Tests uses djnago rest framework test suites
+Tests uses django rest framework test suites
 
 make test
+
 or simply the usual test management command:
 
 ./manage.py test plivoapis
