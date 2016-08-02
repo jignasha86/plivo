@@ -31,6 +31,10 @@ make run
 
 Use curl / web service tools to call rest apis for manual testing
 
+For example,
+
+curl http://127.0.0.1:8000/inbound/sms -X POST  -H "Content-Type: application/json" -d '{"to": "4924195509198", "frm":"4412244594268", "text":"STOP"}' -u plivo1:20S0KPNOIM
+
 #Running the tests:
 
 Tests uses django rest framework test suites
